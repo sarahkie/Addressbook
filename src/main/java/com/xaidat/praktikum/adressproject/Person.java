@@ -1,5 +1,7 @@
 package com.xaidat.praktikum.adressproject;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+
 public class Person {
     private String name;
     private String phoneNumber;
@@ -10,9 +12,15 @@ public class Person {
         this.phoneNumber = phoneNumber;
         this.id = id;
     }
-//leerer Konstruktor wird für Jackson benötigt.
+
+    @JsonCreator //hier sage ich Jackson, dass es beim Erstellen des JSON Objekts DIESEN Konstruktor nehmen soll.
     public Person() {
     }
+
+    //durch die Setter kann es nun selbst die Felder füllen.
+
+    public void setName(String name) { this.name = name; }
+    public void setPhoneNumber(String phoneNumber) { this.phoneNumber = phoneNumber; }
 
     public int getId() { return id; }
     public String getName() { return name; }
