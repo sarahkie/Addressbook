@@ -12,9 +12,16 @@
 <input type="text" id="nameInput" placeholder="Name">
 <input type="text" id="phoneInput" placeholder="Telefonnummer">
 <input type="text" id="emailInput" placeholder="E-Mail-Adresse">
-<button onclick="addContact()">Anlegen</button>
+<button onclick="addContact()">
+  <img src="images/save.png" alt="Kontakt speichern" width="16" height="16">
+
+</button>
 
 <h2>Kontakte</h2>
+
+<h3>Suche</h3>
+<input type="text" id="searchInput" placeholder="Nach Name suchen...">
+<button onclick="searchContacts()">Suchen</button>
 
 <table id="contactTable">
   <thead>

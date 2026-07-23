@@ -1,7 +1,11 @@
 
 
-async function loadContacts() { //Funktion für vorhandene Kontakte anzeigen
-    const response = await fetch('/app/v1/person'); //hier wird mein Endpunkt abgeholt!
+async function loadContacts(searchTerm) { //Funktion für vorhandene Kontakte anzeigen
+    let url = '/app/v1/person';
+    if (searchTerm) {
+        url += `?name=${searchTerm}`;
+    }
+    const response = await fetch(url); //hier wird mein Endpunkt abgeholt!
     const contacts = await response.json(); //hier wird die Antwort mit dem JSON Body abgewartet und gespeichert
 
     const tableBody = document.getElementById('contactTableBody'); //hier wird auf das <table> Element im HTML zugegriffen.
@@ -23,14 +27,27 @@ async function loadContacts() { //Funktion für vorhandene Kontakte anzeigen
         const actionsCell = document.createElement('td');
 
         const deleteButton = document.createElement('button');
-        deleteButton.textContent = 'Löschen';
+
+        const trashIcon = document.createElement('img');
+        trashIcon.src = 'images/trash-64.png';
+        trashIcon.alt = 'Löschen';
+        trashIcon.width = 16;
+        trashIcon.height = 16;
+        deleteButton.appendChild(trashIcon);
         deleteButton.onclick = () => deleteContact(person.id);
+
         const editButton = document.createElement('button');
-        editButton.textContent = "Bearbeiten";
+        const editIcon=document.createElement('img');
+        editIcon.src='images/edit.png';
+        editIcon.alt='bearbeiten';
+        editIcon.width=16;
+        editIcon.height=16;
+        editButton.appendChild(editIcon);
         editButton.onclick = () => editContact(person.id, person.name, person.phoneNumber,person.emailAddress)
 
-        actionsCell.appendChild(deleteButton);
         actionsCell.appendChild(editButton);
+        actionsCell.appendChild(deleteButton);
+
 
         row.appendChild(nameCell);
         row.appendChild(phoneCell);
@@ -38,6 +55,11 @@ async function loadContacts() { //Funktion für vorhandene Kontakte anzeigen
         row.appendChild(actionsCell)
         tableBody.appendChild(row);
     }
+}
+
+function searchContacts() {
+    const searchTerm = document.getElementById('searchInput').value;
+    loadContacts(searchTerm);
 }
 
 async function addContact() { //Methode zum Hinzufügen eines Kontakts

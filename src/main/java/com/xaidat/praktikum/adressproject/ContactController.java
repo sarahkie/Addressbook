@@ -25,12 +25,12 @@ public class ContactController {
 
     @Tool(description = "Gibt gefilterte Liste von gespeicherten Kontakten zurück")
     @GetMapping()
-    public List<Person> searchContact (@RequestParam(required = false) String nameFilter) {
+    public List<Person> searchContact (@RequestParam(required = false) String name) {
         List<Person> persons = contactService.getContactList();
 
-        if (nameFilter != null) {
+        if (name != null) {
             List<Person> filteredPersons = new ArrayList<Person>();
-            Pattern compiled = Pattern.compile(nameFilter, Pattern.CASE_INSENSITIVE);
+            Pattern compiled = Pattern.compile(name, Pattern.CASE_INSENSITIVE);
             for (Person p : persons) {
                 if (compiled.matcher(p.getName()).find()) {
                     filteredPersons.add(p);
