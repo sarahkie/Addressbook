@@ -1,4 +1,4 @@
-
+let currentEditId = null; //variable für die speicherung von einem kontakt der gerade bearbeitet wird
 
 async function loadContacts(searchTerm) { //Funktion für vorhandene Kontakte anzeigen
     let url = '/app/v1/person';
@@ -18,11 +18,11 @@ async function loadContacts(searchTerm) { //Funktion für vorhandene Kontakte an
         const nameCell = document.createElement('td');
         nameCell.textContent = person.name;
 
-        const phoneCell=document.createElement('td');
-        phoneCell.textContent=person.phoneNumber;
+        const phoneCell = document.createElement('td');
+        phoneCell.textContent = person.phoneNumber;
 
-        const emailCell =document.createElement('td');
-        emailCell.textContent=person.emailAddress;
+        const emailCell = document.createElement('td');
+        emailCell.textContent = person.emailAddress;
 
         const actionsCell = document.createElement('td');
 
@@ -37,13 +37,13 @@ async function loadContacts(searchTerm) { //Funktion für vorhandene Kontakte an
         deleteButton.onclick = () => deleteContact(person.id);
 
         const editButton = document.createElement('button');
-        const editIcon=document.createElement('img');
-        editIcon.src='images/edit.png';
-        editIcon.alt='bearbeiten';
-        editIcon.width=16;
-        editIcon.height=16;
+        const editIcon = document.createElement('img');
+        editIcon.src = 'images/edit.png';
+        editIcon.alt = 'bearbeiten';
+        editIcon.width = 16;
+        editIcon.height = 16;
         editButton.appendChild(editIcon);
-        editButton.onclick = () => editContact(person.id, person.name, person.phoneNumber,person.emailAddress)
+        editButton.onclick = () => editContact(person.id, person.name, person.phoneNumber, person.emailAddress)
 
         actionsCell.appendChild(editButton);
         actionsCell.appendChild(deleteButton);
@@ -65,7 +65,7 @@ function searchContacts() {
 async function addContact() { //Methode zum Hinzufügen eines Kontakts
     const name = document.getElementById('nameInput').value; //nimmt sich die Textinputs aus den Eingabefeldern, i guess?
     const phoneNumber = document.getElementById('phoneInput').value;
-    const emailAddress=document.getElementById('emailInput').value;
+    const emailAddress = document.getElementById('emailInput').value;
 
     await fetch('/app/v1/person', { //hier wieder ein Endpunkt, wo jetzt ein Post abgesetzt wird
         method: 'POST',
@@ -75,7 +75,7 @@ async function addContact() { //Methode zum Hinzufügen eines Kontakts
 
     document.getElementById('nameInput').value = '';
     document.getElementById('phoneInput').value = '';
-    document.getElementById('emailInput').value='';
+    document.getElementById('emailInput').value = '';
 
     loadContacts();
 }
@@ -88,15 +88,30 @@ async function deleteContact(id) {
     loadContacts();
 }
 
-async function editContact(id, currentName, currentPhone, currentEmailAddress) {
-    const newName = prompt('Neuer Name:', currentName);
-    const newPhoneNumber = prompt('Neue Telefonnummer:', currentPhone);
-    const newEmailAddress = prompt('Neue E-Mail-Adresse:', currentEmailAddress);
-    await fetch(`/app/v1/person/${id}`, {
+function editContact(id, currentName, currentPhone, currentEmailAddress) {
+    currentEditId = id;
+    document.getElementById('editNameInput').value = currentName;
+    document.getElementById('editPhoneInput').value = currentPhone;
+    document.getElementById('editEmailInput').value = currentEmailAddress;
+    document.getElementById('editModal').style.display = 'block'; //das Modal wird sichtbar!
+}
+
+function closeEditModal() {
+    document.getElementById('editModal').style.display = 'none'; //das Modal wird wieder unsichtbar
+}
+
+async function saveEdit() {
+    const newName = document.getElementById('editNameInput').value;
+    const newPhoneNumber = document.getElementById('editPhoneInput').value;
+    const newEmailAddress = document.getElementById('editEmailInput').value;
+
+    await fetch(`/app/v1/person/${currentEditId}`, {
         method: 'PUT',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({name: newName, phoneNumber: newPhoneNumber, emailAddress: newEmailAddress})
     });
+
+    closeEditModal(); //nach dem Speichern wird das Modal wieder unsichtbar gemacht
     loadContacts();
 }
 

@@ -35,6 +35,17 @@
   <tbody id="contactTableBody"></tbody>
 </table>
 
+<!-- hier kommt das "Modal" - ein "Overlay", das standardmäßig nicht angezeigt wird, nur wenn man auf bearbeiten geht! -->
+
+<div id="editModal" style="display: none;">
+  <h3>Kontakt bearbeiten</h3>
+  <input type="text" id="editNameInput" placeholder="Name">
+  <input type="text" id="editPhoneInput" placeholder="Telefonnummer">
+  <input type="text" id="editEmailInput" placeholder="E-Mail-Adresse">
+  <button onclick="saveEdit()">Speichern</button>
+  <button onclick="closeEditModal()">Abbrechen</button>
+</div>
+
 <script src="script.js"></script>
 
 </body>
