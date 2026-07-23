@@ -1,6 +1,9 @@
 package com.xaidat.praktikum.adressproject;
 
+import org.springframework.ai.mcp.annotation.McpTool;
+import org.springframework.ai.tool.annotation.Tool;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -10,6 +13,7 @@ import java.util.regex.Pattern;
 @RestController
 @RequestMapping(path = "/app/v1/person")
 
+//@Component  -- Frage: wirklich auf beide Klassen legen?
 public class ContactController {
 
     private static final Pattern PATTERN = Pattern.compile("r");
@@ -19,14 +23,14 @@ public class ContactController {
         this.contactService = contactService;
     }
 
-
+    @Tool(description = "Gibt gefilterte Liste von gespeicherten Kontakten zurück")
     @GetMapping()
-    public List<Person> returnContactList(@RequestParam(required = false) String name) {
+    public List<Person> searchContact (@RequestParam(required = false) String nameFilter) {
         List<Person> persons = contactService.getContactList();
 
-        if (name != null) {
+        if (nameFilter != null) {
             List<Person> filteredPersons = new ArrayList<Person>();
-            Pattern compiled = Pattern.compile(name, Pattern.CASE_INSENSITIVE);
+            Pattern compiled = Pattern.compile(nameFilter, Pattern.CASE_INSENSITIVE);
             for (Person p : persons) {
                 if (compiled.matcher(p.getName()).find()) {
                     filteredPersons.add(p);
