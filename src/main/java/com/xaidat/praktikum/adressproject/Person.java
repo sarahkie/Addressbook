@@ -5,11 +5,13 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 public class Person {
     private String name;
     private String phoneNumber;
+    private String emailAddress;
     private int id;
 
-    public Person(String name, String phoneNumber, int id) {
+    public Person(String name, String phoneNumber, String emailAddress,int id) {
         this.name = name;
         this.phoneNumber = phoneNumber;
+        this.emailAddress=emailAddress;
         this.id = id;
     }
 
@@ -21,8 +23,10 @@ public class Person {
 
     public void setName(String name) { this.name = name; }
     public void setPhoneNumber(String phoneNumber) { this.phoneNumber = phoneNumber; }
+    public void setEmailAddress(String emailAddress) {this.emailAddress=emailAddress;}
 
     public int getId() { return id; }
     public String getName() { return name; }
     public String getPhoneNumber() { return phoneNumber; }
+    public String getEmailAddress(){return emailAddress;}
 }

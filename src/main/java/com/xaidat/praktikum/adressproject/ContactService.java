@@ -21,8 +21,8 @@ public class ContactService {
     }
 
     @McpTool(description = "adds a new contact to my address book")
-    public void addPersonToMap(String name, String phoneNumber) {
-        Person newPerson = new Person(name, phoneNumber, nextId);
+    public void addPersonToMap(String name, String phoneNumber,String emailAddress) {
+        Person newPerson = new Person(name, phoneNumber,emailAddress,nextId);
         contactMap.put(nextId, newPerson);
         nextId++;
     }
@@ -35,11 +35,12 @@ public class ContactService {
         } else return false;
     }
 
-    public Person updatePerson(int id, String newName, String newPhoneNumber) {
+    public Person updatePerson(int id, String newName, String newPhoneNumber, String newEmailAddress) {
         Person personToBeUpdated = contactMap.get(id);
         if (personToBeUpdated != null) {
             personToBeUpdated.setName(newName);
             personToBeUpdated.setPhoneNumber(newPhoneNumber);
+            personToBeUpdated.setEmailAddress(newEmailAddress);
             return personToBeUpdated;
         } else return null;
     }

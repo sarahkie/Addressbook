@@ -57,7 +57,7 @@ public class ContactController {
     //könnte man auch hier hinzufügen, muss man aber nicht unbedingt:
     // @PutMapping
     public void createNewContact(@RequestBody Person person) {
-        contactService.addPersonToMap(person.getName(), person.getPhoneNumber());
+        contactService.addPersonToMap(person.getName(), person.getPhoneNumber(), person.getEmailAddress());
     }
 
     //DELETE:
@@ -72,7 +72,7 @@ public class ContactController {
     //Änderungen/Update
     @PutMapping(path = "{id}")
     public ResponseEntity<Person> updateContact(@PathVariable(name = "id") int id, @RequestBody Person person) {
-        Person p = contactService.updatePerson(id, person.getName(), person.getPhoneNumber());
+        Person p = contactService.updatePerson(id, person.getName(), person.getPhoneNumber(),person.getEmailAddress());
         if (p==null) {
             return ResponseEntity.notFound().build();
         } else return ResponseEntity.ok(p);
