@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <title>Mein Adressbuch</title>
+</head>
+<body>
+<h1>Adressbuch</h1>
+
+<h2>Neuen Kontakt anlegen</h2>
+<input type="text" id="nameInput" placeholder="Name">
+<input type="text" id="phoneInput" placeholder="Telefonnummer">
+<button onclick="addContact()">Anlegen</button>
+
+<h2>Kontakte</h2>
+
+<ul id="contactList"></ul>
+
+<script>
+  async function loadContacts() { //Funktion für vorhandene Kontakte anzeigen
+    const response = await fetch('/app/v1/person'); //hier wird mein Endpunkt abgeholt!
+    const contacts = await response.json(); //hier wird die Antwort mit dem JSON Body abgewartet und gespeichert
+
+    const list = document.getElementById('contactList'); //hier wird auf das <ul> Element im HTML zugegriffen.
+    list.innerHTML = '';
+
+    for (const person of contacts) { //in dem ul Element wird für jeden Kontakt ein <li> Element erstellt und als Kind hinzugefügt
+      const item = document.createElement('li');
+      item.textContent = person.name + ' — ' + person.phoneNumber;
+      const deleteButton = document.createElement('button');
+      deleteButton.textContent = 'Löschen';
+      deleteButton.onclick = () => deleteContact(person.id);
+      const editButton=document.createElement('button');
+      editButton.textContent="Bearbeiten";
+      editButton.onclick=()=>editContact(person.id,person.name,person.phoneNumber)
+
+      item.appendChild(deleteButton);
+      item.appendChild(editButton);
+      list.appendChild(item);
+    }
+  }
+    async function addContact() { //Methode zum Hinzufügen eines Kontakts
+      const name = document.getElementById('nameInput').value; //nimmt sich die Textinputs aus den Eingabefeldern, i guess?
+      const phoneNumber = document.getElementById('phoneInput').value;
+
+      await fetch('/app/v1/person', { //hier wieder ein Endpunkt, wo jetzt ein Post abgesetzt wird
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name: name, phoneNumber: phoneNumber }) //der Body wird in JSON umgewandelt
+      });
+
+      document.getElementById('nameInput').value = '';
+      document.getElementById('phoneInput').value = '';
+
+      loadContacts();
+    }
+
+  async function deleteContact(id){
+    await fetch(`/app/v1/person/${id}`, { //Achtung, da sind "Backticks", keine einfachen Anführungszeichen!!
+      method: 'DELETE',
+    });
+
+    loadContacts();
+  }
+
+  async function editContact(id, currentName, currentPhone){
+    const newName = prompt('Neuer Name:', currentName);
+    const newPhoneNumber = prompt('Neue Telefonnummer:', currentPhone);
+    await fetch (`/app/v1/person/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name: newName, phoneNumber: newPhoneNumber })
+    });
+    loadContacts();
+  }
+
+  loadContacts();
+</script>
+</body>
+</html>
