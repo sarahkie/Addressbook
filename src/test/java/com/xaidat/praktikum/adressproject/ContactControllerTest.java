@@ -15,7 +15,7 @@ class ContactControllerTest {
         ContactService contactService = Mockito.mock(ContactService.class);
         ContactController underTest = new ContactController(contactService);
 
-        ResponseEntity<Person> response = underTest.updateContact(1, new Person("Megatron", "+11111", 0));
+        ResponseEntity<Person> response = underTest.updateContact(1, new Person("Megatron", "+11111", "megatron@mail", 0));
 
         assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
     }

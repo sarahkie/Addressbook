@@ -1,6 +1,7 @@
 package com.xaidat.praktikum.adressproject;
 
-import org.springframework.ai.mcp.annotation.McpTool;
+//import org.springframework.ai.mcp.annotation.McpTool;
+
 import org.springframework.ai.tool.annotation.Tool;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
@@ -23,9 +24,9 @@ public class ContactController {
         this.contactService = contactService;
     }
 
-    @Tool(description = "Gibt gefilterte Liste von gespeicherten Kontakten zurück")
+    //    @McpTool(description = "Gibt gefilterte Liste von gespeicherten Kontakten zurück")
     @GetMapping()
-    public List<Person> searchContact (@RequestParam(required = false) String name) {
+    public List<Person> searchContact(@RequestParam(required = false) String name) {
         List<Person> persons = contactService.getContactList();
 
         if (name != null) {
@@ -41,6 +42,7 @@ public class ContactController {
         return persons;
     }
 
+    @Tool(description = "GetRequest auf eine bestimmte Person mit ID")
     @GetMapping(path = "{id}")
     //fügt automatisch einen Schrägstrich hinzu, nicht schreiben, sonst wird es als absoluter Pfad behandelt
     public ResponseEntity<Person> returnPerson(@PathVariable(name = "id") int id) { //....liest den Wert aus, den der Client in diesem Teil der
@@ -72,8 +74,8 @@ public class ContactController {
     //Änderungen/Update
     @PutMapping(path = "{id}")
     public ResponseEntity<Person> updateContact(@PathVariable(name = "id") int id, @RequestBody Person person) {
-        Person p = contactService.updatePerson(id, person.getName(), person.getPhoneNumber(),person.getEmailAddress());
-        if (p==null) {
+        Person p = contactService.updatePerson(id, person.getName(), person.getPhoneNumber(), person.getEmailAddress());
+        if (p == null) {
             return ResponseEntity.notFound().build();
         } else return ResponseEntity.ok(p);
     }

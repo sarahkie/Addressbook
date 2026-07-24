@@ -6,14 +6,15 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<h1>Adressbuch</h1>
+<div class="header-row">
+  <h1>Adressbuch</h1>
+  <img src="images/icons8-visitenkarte-64.png" alt="Adressbuch" width="32" height="32">
+</div>
 
 <h2>Neuen Kontakt anlegen</h2>
-<input type="text" id="nameInput" placeholder="Name">
-<input type="text" id="phoneInput" placeholder="Telefonnummer">
-<input type="text" id="emailInput" placeholder="E-Mail-Adresse">
-<button onclick="addContact()">
-  <img src="images/save.png" alt="Kontakt speichern" width="16" height="16">
+<button popovertarget="newContact">
+  NEU
+  <img src="images/plus-64.png" alt="Neuer Kontakt" width="28" height="28">
 
 </button>
 
@@ -21,7 +22,9 @@
 
 <h3>Suche</h3>
 <input type="text" id="searchInput" placeholder="Nach Name suchen...">
-<button onclick="searchContacts()">Suchen</button>
+<button onclick="searchContacts()">Suchen
+  <img src="images/icons8-suche-64.png" alt="Suche" width="28" height="28">
+</button>
 
 <table id="contactTable">
   <thead>
@@ -34,16 +37,31 @@
   </thead>
   <tbody id="contactTableBody"></tbody>
 </table>
-
 <!-- hier kommt das "Modal" - ein "Overlay", das standardmäßig nicht angezeigt wird, nur wenn man auf bearbeiten geht! -->
 
-<div id="editModal" style="display: none;">
+<div id="editModal" popover="auto">
+<!--
+<div id="editModal" popover="auto" style="display: none;">
+-->
   <h3>Kontakt bearbeiten</h3>
   <input type="text" id="editNameInput" placeholder="Name">
   <input type="text" id="editPhoneInput" placeholder="Telefonnummer">
   <input type="text" id="editEmailInput" placeholder="E-Mail-Adresse">
   <button onclick="saveEdit()">Speichern</button>
   <button onclick="closeEditModal()">Abbrechen</button>
+</div>
+
+<div id="newContact" popover="auto">
+  <!--
+  <div id="editModal" popover="auto" style="display: none;">
+  -->
+  <h3>Neuer Kontakt</h3>
+  <input type="text" id="nameInput" placeholder="Name">
+  <input type="text" id="phoneInput" placeholder="Telefonnummer">
+  <input type="text" id="emailInput" placeholder="E-Mail-Adresse">
+  <button onclick="addContact()" popovertarget="newContact" popovertargetaction="hide">Speichern</button>
+  <button popovertarget="newContact" popovertargetaction="hide">Abbrechen</button>
+  <!--<button onclick="closeEditModal()">Abbrechen</button>-->
 </div>
 
 <script src="script.js"></script>

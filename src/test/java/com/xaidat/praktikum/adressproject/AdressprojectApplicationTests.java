@@ -25,8 +25,8 @@ import tools.jackson.core.type.TypeReference;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.web.servlet.function.RequestPredicates.POST;
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 
-@SpringBootTest
 class AdressprojectApplicationTests {
 
     @Test
@@ -57,7 +57,8 @@ class AdressprojectApplicationTests {
         String jsonBody = """ 
                 {
                     "name": "Test Person",
-                    "phoneNumber": "123456789"
+                    "phoneNumber": "123456789",
+                    "emailAddress": "test@test.com"
                 }
                 """; //""" macht einen "Textblock"
 
@@ -92,7 +93,8 @@ class AdressprojectApplicationTests {
         String jsonBody = """
                 {
                     "name": "GetById Test Person",
-                    "phoneNumber": "555555555"
+                    "phoneNumber": "555555555",
+                    "emailAddress": "test@test.com"
                 }
                 """;
 
@@ -145,7 +147,8 @@ class AdressprojectApplicationTests {
         String jsonBody = """
                 {
                     "name": "GetById Test Person",
-                    "phoneNumber": "555555555"
+                    "phoneNumber": "555555555",
+                    "emailAddress": "test@test.com"
                 }
                 """;
 

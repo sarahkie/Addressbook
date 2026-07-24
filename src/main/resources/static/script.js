@@ -1,3 +1,4 @@
+
 let currentEditId = null; //variable für die speicherung von einem kontakt der gerade bearbeitet wird
 
 async function loadContacts(searchTerm) { //Funktion für vorhandene Kontakte anzeigen
@@ -18,11 +19,11 @@ async function loadContacts(searchTerm) { //Funktion für vorhandene Kontakte an
         const nameCell = document.createElement('td');
         nameCell.textContent = person.name;
 
-        const phoneCell = document.createElement('td');
-        phoneCell.textContent = person.phoneNumber;
+        const phoneCell=document.createElement('td');
+        phoneCell.textContent=person.phoneNumber;
 
-        const emailCell = document.createElement('td');
-        emailCell.textContent = person.emailAddress;
+        const emailCell =document.createElement('td');
+        emailCell.textContent=person.emailAddress;
 
         const actionsCell = document.createElement('td');
 
@@ -31,19 +32,19 @@ async function loadContacts(searchTerm) { //Funktion für vorhandene Kontakte an
         const trashIcon = document.createElement('img');
         trashIcon.src = 'images/trash-64.png';
         trashIcon.alt = 'Löschen';
-        trashIcon.width = 16;
-        trashIcon.height = 16;
+        trashIcon.width = 28;
+        trashIcon.height = 28;
         deleteButton.appendChild(trashIcon);
         deleteButton.onclick = () => deleteContact(person.id);
 
         const editButton = document.createElement('button');
-        const editIcon = document.createElement('img');
-        editIcon.src = 'images/edit.png';
-        editIcon.alt = 'bearbeiten';
-        editIcon.width = 16;
-        editIcon.height = 16;
+        const editIcon=document.createElement('img');
+        editIcon.src='images/edit.png';
+        editIcon.alt='bearbeiten';
+        editIcon.width=28;
+        editIcon.height=28;
         editButton.appendChild(editIcon);
-        editButton.onclick = () => editContact(person.id, person.name, person.phoneNumber, person.emailAddress)
+        editButton.onclick = () => editContact(person.id, person.name, person.phoneNumber,person.emailAddress)
 
         actionsCell.appendChild(editButton);
         actionsCell.appendChild(deleteButton);
@@ -65,7 +66,7 @@ function searchContacts() {
 async function addContact() { //Methode zum Hinzufügen eines Kontakts
     const name = document.getElementById('nameInput').value; //nimmt sich die Textinputs aus den Eingabefeldern, i guess?
     const phoneNumber = document.getElementById('phoneInput').value;
-    const emailAddress = document.getElementById('emailInput').value;
+    const emailAddress=document.getElementById('emailInput').value;
 
     await fetch('/app/v1/person', { //hier wieder ein Endpunkt, wo jetzt ein Post abgesetzt wird
         method: 'POST',
@@ -75,7 +76,7 @@ async function addContact() { //Methode zum Hinzufügen eines Kontakts
 
     document.getElementById('nameInput').value = '';
     document.getElementById('phoneInput').value = '';
-    document.getElementById('emailInput').value = '';
+    document.getElementById('emailInput').value='';
 
     loadContacts();
 }

@@ -1,6 +1,7 @@
 package com.xaidat.praktikum.adressproject;
 
-import org.springframework.ai.mcp.annotation.McpTool;
+//import org.springframework.ai.mcp.annotation.McpTool;
+
 import org.springframework.ai.tool.annotation.Tool;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
@@ -20,13 +21,14 @@ public class ContactService {
         contactMap = new HashMap<Integer, Person>();
     }
 
-    @McpTool(description = "adds a new contact to my address book")
-    public void addPersonToMap(String name, String phoneNumber,String emailAddress) {
-        Person newPerson = new Person(name, phoneNumber,emailAddress,nextId);
+    @Tool(description = "adds a new contact to my address book")
+    public void addPersonToMap(String name, String phoneNumber, String emailAddress) {
+        Person newPerson = new Person(name, phoneNumber, emailAddress, nextId);
         contactMap.put(nextId, newPerson);
         nextId++;
     }
 
+    @Tool(description = "deletes a contact from my address book")
     public boolean removePersonFromMap(int id) {
         Person personToBeRemoved = contactMap.get(id);
         if (personToBeRemoved != null) {
@@ -35,6 +37,7 @@ public class ContactService {
         } else return false;
     }
 
+    @Tool(description = "updates details in a contact in my address book")
     public Person updatePerson(int id, String newName, String newPhoneNumber, String newEmailAddress) {
         Person personToBeUpdated = contactMap.get(id);
         if (personToBeUpdated != null) {
